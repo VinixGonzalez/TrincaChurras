@@ -2,26 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+.bg-churras {
+  background-image: url("../../public/bg-churras.jpg") ;
+  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.gradient-overlay {
+  background: linear-gradient(180deg, transparent 1%, #FFD836);
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
