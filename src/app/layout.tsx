@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 
 import { Lato } from "next/font/google";
 import { Providers } from "./providers";
+import "react-datepicker/dist/react-datepicker.css";
 
 const lato = Lato({
   subsets: ["latin"],

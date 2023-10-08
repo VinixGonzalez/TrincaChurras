@@ -1,17 +1,17 @@
 "use client";
-import { FiGithub } from "react-icons/fi";
 
+import { FiGithub } from "react-icons/fi";
 import React from "react";
 import { signIn } from "next-auth/react";
 
 export function FormLogin() {
   return (
-    <form className="flex flex-col items-center" action="">
+    <form className="flex flex-col items-center">
       <div className="flex flex-col gap-4">
         <button
           type="button"
           onClick={() =>
-            signIn("github", { callbackUrl: "/agendar", redirect: false })
+            signIn("github", { callbackUrl: "/dashboard", redirect: false })
           }
           className="bg-[#292929] text-white w-[280px] p-4 rounded-full flex items-center justify-evenly group"
         >
