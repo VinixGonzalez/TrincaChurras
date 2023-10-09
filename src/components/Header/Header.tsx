@@ -10,6 +10,8 @@ import { SiHomebrew } from "react-icons/si";
 export async function Header() {
   const session = await getServerSession(authOptions);
 
+  if (!session) return null;
+
   return (
     <div className="bg-white rounded-xl p-9 shadow-xl">
       <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row items-center">
