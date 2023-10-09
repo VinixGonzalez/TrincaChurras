@@ -39,7 +39,7 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
   return (
     <section
       id="churras-detalhe"
-      className="bg-white p-4 sm:p-9 rounded-xl sm:w-[600px] sm:max-w-7xl mx-auto flex flex-col gap-6"
+      className="bg-white p-4 sm:p-9 rounded-xl min-w-[265px] sm:w-[600px] sm:max-w-7xl mx-auto flex flex-col gap-6"
     >
       <div className="flex flex-col gap-2">
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 justify-between">
@@ -67,7 +67,7 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-2 sm:gap-0 items-center justify-between">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-0 sm:items-center justify-between">
         <div className="flex gap-2 items-center" title="Total de pessoas">
           <FaUsers color="#292929" size={22} />
           <p>{churrasco?.lista.length}</p>

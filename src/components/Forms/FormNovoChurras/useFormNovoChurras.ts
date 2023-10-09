@@ -90,7 +90,7 @@ export const useFormNovoChurras = ({
       ...listaPessoas,
       {
         nome,
-        id: `${id}-${nome}`,
+        id: `${id}-${nome}-${Math.floor(Math.random() * 10000).toString()}`,
         pago: false,
         valor: valorPessoa,
       },

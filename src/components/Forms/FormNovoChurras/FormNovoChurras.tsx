@@ -119,6 +119,7 @@ export function FormNovoChurras({
       <div className="flex flex-col gap-1">
         <label htmlFor="observacao">Observações</label>
         <textarea
+          maxLength={4000}
           id="observacoes"
           placeholder="Observações"
           className="bg-[#c9c9c9] rounded-xl p-4 max-h-[300px] min-h-[100px]"
