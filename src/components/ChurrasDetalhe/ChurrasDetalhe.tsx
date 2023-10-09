@@ -127,7 +127,7 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
               <div className="max-w-[250px] truncate">
                 <label
                   className={`${pessoa.pago ? "text-green-600" : "text-black"}`}
-                  htmlFor={`check-${pessoa.id}`}
+                  htmlFor={`${session ? `check-${pessoa.id}` : ""}`}
                 >
                   {pessoa.nome}
                 </label>
