@@ -11,9 +11,7 @@ export async function Header() {
   // const { data: session } = useSession();
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return <div className="h-[92px]">Carregando...</div>;
-  }
+  if (!session) return null;
 
   return (
     <div className="bg-white rounded-xl p-9 shadow-xl">

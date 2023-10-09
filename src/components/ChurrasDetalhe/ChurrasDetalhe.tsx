@@ -8,12 +8,14 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useChurrasDetalhe } from "./useChurrasDetalhe";
 import ShareButton from "../ShareButton/ShareButton";
+import { useSession } from "next-auth/react";
 
 interface ChurrasDetalhe {
   id: string;
 }
 
 export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
+  const { data: session } = useSession();
   const {
     churrasco,
     fullUrl,
@@ -115,6 +117,7 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
           <li key={pessoa.id} className="flex justify-between">
             <div className="flex gap-4">
               <input
+                className={`${session ? "block" : "hidden"}`}
                 type="checkbox"
                 name={`check-${pessoa.id}`}
                 id={`check-${pessoa.id}`}
