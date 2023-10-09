@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+"use client";
+
 import { Churras } from "@/types";
 import { useLocalStorage } from "@/storage/Storage";
 import { useState, useEffect } from "react";
