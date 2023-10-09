@@ -154,15 +154,17 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
         ))}
       </ul>
 
-      <div className="mt-6">
-        <button
-          onClick={handleUpdateListaPagos}
-          type="button"
-          className="bg-[#292929] flex items-center gap-2 py-4 px-8 rounded-full group w-fit"
-        >
-          <p className="text-white font-semibold">Salvar</p>
-        </button>
-      </div>
+      {session && (
+        <div className="mt-6">
+          <button
+            onClick={handleUpdateListaPagos}
+            type="button"
+            className="bg-[#292929] flex items-center gap-2 py-4 px-8 rounded-full group w-fit"
+          >
+            <p className="text-white font-semibold">Salvar</p>
+          </button>
+        </div>
+      )}
     </section>
   );
 }
