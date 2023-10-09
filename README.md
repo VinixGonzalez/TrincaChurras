@@ -9,7 +9,7 @@ Foram utilizados alguns padrões de design como: Factory, Compose/container, mod
 O projeto pode ser acessado através deste link:
 [App Trinca Churras](https://trinca-churras.vercel.app/).
 
-O projeto utiliza SSO com auth-next e github provider, que suporta apenas um redirecionamento após o login, portanto mesmo logando em localhost, será redirecionado para a url da vercel. Uma possível abordagem para resolver este problema é a utilização de proxy na autenticação para fazer os redirecionamentos de acordo com o ambiente. Fica para uma feature futura.
+O projeto utiliza SSO com next-auth e github provider, que suporta apenas um redirecionamento após o login, portanto mesmo logando em localhost, será redirecionado para a url da vercel. Uma possível abordagem para resolver este problema é a utilização de proxy na autenticação para fazer os redirecionamentos de acordo com o ambiente. Fica para uma feature futura.
 
 ## Setup
 
