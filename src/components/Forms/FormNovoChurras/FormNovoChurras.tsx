@@ -6,6 +6,7 @@ import pt from "date-fns/locale/pt-BR";
 import { Controller } from "react-hook-form";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useFormNovoChurras } from "./useFormNovoChurras";
+import { real } from "@/utils";
 
 registerLocale("pt-BR", pt);
 
@@ -16,7 +17,6 @@ export function FormNovoChurras({
 }) {
   const {
     handleAddNovaPessoa,
-    handleCheckPessoa,
     handleRemoverPessoa,
     handleSubmit,
     handleSubmitNewChurras,
@@ -30,12 +30,35 @@ export function FormNovoChurras({
     setValorEspecifico,
     listaPessoas,
     totalChurras,
-  } = useFormNovoChurras();
+    incluirBebidasCheck,
+  } = useFormNovoChurras({ onAddSuccess });
+
+  const handleChangeValorEspecifico = (valor: string) => {
+    const isValid = /^(\d+)([,.]\d{0,2})?$/.test(valor);
+
+    if (!isValid) {
+      return;
+    }
+
+    const numericValue = parseFloat(valor.replace(",", "."));
+
+    if (numericValue >= 1000) {
+      setValorEspecifico("1000");
+    }
+
+    setValorEspecifico(valor);
+  };
 
   return (
     <form
       className="flex flex-col gap-6"
       onSubmit={handleSubmit(handleSubmitNewChurras)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" && e.target === document.activeElement) {
+          e.preventDefault();
+          handleAddNovaPessoa(pessoa);
+        }
+      }}
     >
       <div className="flex gap-4">
         <div className="flex flex-col gap-1">
@@ -62,7 +85,7 @@ export function FormNovoChurras({
             render={({ field, fieldState, formState }) => (
               <DatePicker
                 id="data"
-                className="bg-[#c9c9c9] rounded-xl p-4 max-w-[180px]"
+                className="bg-[#c9c9c9] rounded-xl p-4 max-w-[170px]"
                 adjustDateOnChange={false}
                 selected={field.value}
                 showTimeSelect
@@ -99,6 +122,7 @@ export function FormNovoChurras({
           id="observacoes"
           placeholder="Observações"
           className="bg-[#c9c9c9] rounded-xl p-4 max-h-[300px] min-h-[100px]"
+          {...register("observacoes")}
         />
       </div>
 
@@ -133,11 +157,12 @@ export function FormNovoChurras({
               </label>
               <input
                 id="valorEspecifico"
-                type="number"
+                type="text"
                 placeholder="Valor"
                 className="bg-[#c9c9c9] rounded-xl p-4 w-full outline-none"
                 value={valorEspecifico}
-                onChange={(e) => setValorEspecifico(+e.target.value)}
+                onChange={(e) => handleChangeValorEspecifico(e.target.value)}
+                onFocus={(e) => e.target.select()}
               />
             </div>
           </div>
@@ -151,33 +176,18 @@ export function FormNovoChurras({
           </button>
         </div>
 
-        <ul className="flex flex-col">
+        <ul className="flex flex-col mt-4 gap-2">
           {listaPessoas.map((pessoa) => (
             <li key={pessoa.id} className="flex justify-between">
               <div className="flex gap-4">
-                <input
-                  className="hidden"
-                  type="checkbox"
-                  name={`check-${pessoa.id}`}
-                  id={`check-${pessoa.id}`}
-                  onChange={() => handleCheckPessoa(pessoa.id)}
-                  checked={pessoa.pago}
-                />
-                <label
-                  className={`${pessoa.pago ? "text-green-600" : "text-black"}`}
-                  //   htmlFor={`check-${pessoa.id}`}
-                >
-                  {pessoa.nome}
-                </label>
+                <div className="max-w-[250px] truncate">
+                  <label className={`text-black`}>{pessoa.nome}</label>
+                </div>
               </div>
 
               <div className="flex items-center gap-1">
-                <span
-                  className={`${
-                    pessoa.pago ? "line-through text-green-600" : "text-black"
-                  }`}
-                >
-                  R$ {pessoa.valor}
+                <span className={`text-black`}>
+                  {real.format(+pessoa.valor)}
                 </span>
                 <button
                   title="Remover"
@@ -192,18 +202,31 @@ export function FormNovoChurras({
         </ul>
       </div>
 
+      <small className="text-[#292929] font-semibold text-right">
+        {listaPessoas.length} pessoa(s).
+      </small>
+
       <hr />
 
-      <div>
+      <section id="resumo" className="w-full">
         <small>Resumo</small>
 
         <div className="flex items-center justify-between">
           <p>TOTAL</p>
-          <p className="text-2xl">R$ {totalChurras}</p>
+          <p className="text-2xl">{real.format(totalChurras)}</p>
         </div>
-      </div>
+        <div className="flex items-center justify-between">
+          <p>PESSOAS</p>
+          <p className="text-2xl">{listaPessoas.length}</p>
+        </div>
+        {incluirBebidasCheck && listaPessoas.length > 0 && (
+          <small className="text-right text-xs">
+            * Bebidas incluídas, foi adicionado R$ 12,00 por pessoa.
+          </small>
+        )}
+      </section>
 
-      <div className="mt-60">
+      <div>
         <button
           type="submit"
           className="bg-[#292929] flex items-center gap-2 py-4 px-8 rounded-full group w-fit"

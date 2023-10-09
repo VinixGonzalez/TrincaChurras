@@ -1,24 +1,28 @@
+"use client";
+
 import { Churras } from "@/types";
 
-
-export const Storage = {
-  getChurras: () => {
+export const useLocalStorage = () => {
+  const getChurras = (): Array<Churras> => {
     const listaChurras = JSON.parse(
       localStorage.getItem("listaChurras") || "[]"
     );
     if (!listaChurras) return [];
-    // const listaStorage = localStorage.getItem("listaChurras")!;
-    // if (!listaStorage) return [];
+    return listaChurras;
+  };
 
-    // const listaObj = JSON.parse(listaStorage);
-    // return listaObj as Array<Churras>;
-  },
-  setChurras: (churras: Churras) => {
-    const listaChurras = JSON.parse(localStorage.getItem("listaChurras") || "[]");
+  const setChurras = (churras: Churras) => {
+    const listaChurras = JSON.parse(
+      localStorage.getItem("listaChurras") || "[]"
+    );
     listaChurras.push(churras);
     localStorage.setItem("listaChurras", JSON.stringify(listaChurras));
 
-    // Atualize o timestamp no sessionStorage
     sessionStorage.setItem("lastUpdated", Date.now().toString());
-  },
+  };
+
+  return {
+    getChurras,
+    setChurras,
+  };
 };

@@ -20,8 +20,6 @@ export function NovoChurrasModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSaveChurras = () => {
-    debugger;
-
     router.replace("/dashboard");
     onClose();
   };
@@ -38,11 +36,6 @@ export function NovoChurrasModal() {
           <ModalBody>
             <FormNovoChurras onAddSuccess={handleSaveChurras} />
           </ModalBody>
-
-          {/* <ModalFooter>
-            <Button onClick={handleSaveChurras}>Salvar</Button>
-            <Button onClick={onClose}>Cancelar</Button>
-          </ModalFooter> */}
         </ModalContent>
       </Modal>
     </>

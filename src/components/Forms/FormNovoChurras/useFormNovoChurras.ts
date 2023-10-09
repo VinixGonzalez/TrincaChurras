@@ -1,9 +1,10 @@
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Storage } from "@/storage/Storage";
+import { useLocalStorage } from "@/storage/Storage";
 import { z } from "zod";
 import { Churras, Pessoa } from "@/types";
+import { normalizeValue } from "@/utils";
 
 const NovoChurrasSchema = z.object({
   data: z.date({ required_error: "Informe a data." }),
@@ -15,22 +16,30 @@ const NovoChurrasSchema = z.object({
     .string({ required_error: "Informe o nome do evento." })
     .nonempty("Informe o nome do evento.")
     .max(200, "O nome do evento deve ter no máximo 200 caracteres."),
+  observacoes: z
+    .string()
+    .max(4000, "A observação deve ter no máximo 4000 caracteres."),
 });
 
 type NovoChurrasSchemaType = z.infer<typeof NovoChurrasSchema>;
 
 const VALOR_POR_PESSOA = 25;
 
-export const useFormNovoChurras = () => {
+export const useFormNovoChurras = ({
+  onAddSuccess,
+}: {
+  onAddSuccess?: () => void;
+}) => {
   const [listaPessoas, setListaPessoas] = useState<Array<Pessoa>>([]);
   const [pessoa, setPessoa] = useState("");
   const [incluirBebidasCheck, setIncluirBebidasCheck] = useState(false);
-  const [valorEspecifico, setValorEspecifico] = useState(0);
+  const [valorEspecifico, setValorEspecifico] = useState("0");
+  const { setChurras } = useLocalStorage();
 
   const valorBebidaPorPessoa = incluirBebidasCheck ? 12 : 0;
 
   const totalChurras = listaPessoas.reduce(
-    (total, pessoa) => total + pessoa.valor + valorBebidaPorPessoa,
+    (total, pessoa) => total + +pessoa.valor + valorBebidaPorPessoa,
     0
   );
 
@@ -60,19 +69,23 @@ export const useFormNovoChurras = () => {
       bebidaInclusa: incluirBebidasCheck,
       lista: listaPessoas,
       total: totalChurras,
-      id: Math.floor(Math.random() * 10000),
+      id: Math.floor(Math.random() * 10000).toString(),
     };
 
-    Storage.setChurras(churras);
+    setChurras(churras);
 
     alert("Churras adicionado!");
-    //   onAddSuccess();
+    onAddSuccess && onAddSuccess();
   };
 
   const handleAddNovaPessoa = (nome: string) => {
     if (!nome.trim()) return;
+
+    const valorNormalizado = normalizeValue(valorEspecifico);
+
     const valorPessoa =
-      valorEspecifico > 0 ? valorEspecifico : VALOR_POR_PESSOA;
+      valorNormalizado > 0 ? valorNormalizado : VALOR_POR_PESSOA;
+
     setListaPessoas([
       ...listaPessoas,
       {
@@ -85,14 +98,6 @@ export const useFormNovoChurras = () => {
     setPessoa("");
   };
 
-  const handleCheckPessoa = (id: string) => {
-    const novaLista = [...listaPessoas];
-    novaLista.map((pessoa) =>
-      pessoa.id === id ? (pessoa.pago = !pessoa.pago) : pessoa
-    );
-    setListaPessoas(novaLista);
-  };
-
   const handleRemoverPessoa = (id: string) => {
     const novaLista = listaPessoas.filter((pessoa) => pessoa.id !== id);
     setListaPessoas(novaLista);
@@ -101,7 +106,6 @@ export const useFormNovoChurras = () => {
   return {
     handleRemoverPessoa,
     handleAddNovaPessoa,
-    handleCheckPessoa,
     handleSubmit,
     handleSubmitNewChurras,
     register,
@@ -113,6 +117,7 @@ export const useFormNovoChurras = () => {
     listaPessoas,
     totalChurras,
     errors,
+    incluirBebidasCheck,
     control,
   };
 };
