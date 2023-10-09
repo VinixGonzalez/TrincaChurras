@@ -51,7 +51,7 @@ export function FormNovoChurras({
 
   return (
     <form
-      className="flex flex-col gap-6"
+      className="flex flex-col sm:flex-row gap-6"
       onSubmit={handleSubmit(handleSubmitNewChurras)}
       onKeyDown={(e) => {
         if (e.key === "Enter" && e.target === document.activeElement) {
@@ -60,7 +60,7 @@ export function FormNovoChurras({
         }
       }}
     >
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <label title="Obrigatório" htmlFor="nome">
             Nome do evento*
