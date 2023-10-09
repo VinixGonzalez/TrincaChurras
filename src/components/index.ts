@@ -6,3 +6,4 @@ export * from "./Modals/NovoChurrasModal";
 export * from "./NovoChurrasButton/NovoChurrasButton";
 export * from "./SairButton/SairButton";
 export * from "./ChurrasDetalhe/ChurrasDetalhe";
+export * from "./ChurrasDetalhe/useChurrasDetalhe";

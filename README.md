@@ -1,34 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🍻 Trinca Churras
 
-## Getting Started
+Seja bem-vindo ao projeto Trinca Churras, sua aplicação para marcar bons churrascos com a galera!
 
-First, run the development server:
+Este projeto foi desenvolvido como parte de um desafio técnico e serve como exemplo de uma aplicação front-end moderna, responsiva e eficiente.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+Foram utilizados alguns padrões de design como: Factory, Compose/container, modularização e separação de responsabilidades.
+
+O projeto pode ser acessado através deste link:
+[Petz Pokémon Center](https://trinca-churras.vercel.app/).
+
+O projeto utiliza SSO com auth-next e github provider, que suporta apenas um redirecionamento após o login, portanto mesmo logando em localhost, será redirecionado para a url da vercel. Uma possível abordagem para resolver este problema é a utilização de proxy na autenticação para fazer os redirecionamentos de acordo com o ambiente. Fica para uma feature futura.
+
+## Setup
+
+Instale as dependências do código com npm.
+
+```shell
+npm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Inicie o projeto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🚀 Algumas tecnologias utilizadas
 
-## Learn More
+• Next.js (com app folder): Otimizado para produção, facilita a criação de aplicações React com Server-Side Rendering (SSR) e rotas baseadas em sistema de arquivos.
 
-To learn more about Next.js, take a look at the following resources:
+• TypeScript: Superconjunto tipado de JavaScript que adiciona tipos estáticos, aumentando a robustez e a previsibilidade do código.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+• TailwindCSS: Um framework CSS de baixo nível que permite criar designs personalizados rapidamente e com eficiência, proporcionando um design responsivo de alta qualidade.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+• Chakra UI: Uma biblioteca de componentes para React que facilita a criação de interfaces acessíveis e com design consistente.
 
-## Deploy on Vercel
+• Zustand & Zod: Bibliotecas para gerenciamento de estado e validação, respectivamente.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+• React-Hook-Form: Uma biblioteca para trabalhar com formuários de forma eficiente.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+
+Vinícius Gonzalez
+
+[LinkedIn](https://www.linkedin.com/in/vinicius-gonzalez-84b60a152/).
+
+email: vinix74@hotmail.com
+
+

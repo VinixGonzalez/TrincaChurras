@@ -8,17 +8,14 @@ import Link from "next/link";
 import { SiHomebrew } from "react-icons/si";
 
 export async function Header() {
-  // const { data: session } = useSession();
   const session = await getServerSession(authOptions);
-
-  if (!session) return null;
 
   return (
     <div className="bg-white rounded-xl p-9 shadow-xl">
       <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row items-center">
         <div className="flex flex-col items-center gap-2">
           <Image
-            src={session.user?.image as string}
+            src={session?.user?.image as string}
             width={80}
             height={80}
             alt="Imagem do usuario"

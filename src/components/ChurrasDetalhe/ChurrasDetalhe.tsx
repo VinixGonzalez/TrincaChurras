@@ -9,7 +9,6 @@ import Link from "next/link";
 import { useChurrasDetalhe } from "./useChurrasDetalhe";
 import ShareButton from "../ShareButton/ShareButton";
 import { useSession } from "next-auth/react";
-import { useLocalStorage } from "@/storage/Storage";
 import { redirect } from "next/navigation";
 
 interface ChurrasDetalhe {
@@ -24,17 +23,10 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
     loadingData,
     calcularValorTotalArrecadado,
     handleCheckPessoa,
+    handleUpdateListaPagos,
   } = useChurrasDetalhe({
     id,
   });
-
-  const { setChurras } = useLocalStorage();
-
-  const handleUpdateListaPagos = () => {
-    if (!churrasco) return;
-    setChurras(churrasco);
-    alert("Churras atualizado!");
-  };
 
   if (loadingData) {
     return "Carregando detalhe...";

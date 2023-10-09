@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 export const useChurrasDetalhe = ({ id }: { id: string }) => {
-  const { getChurras } = useLocalStorage();
+  const { getChurras, setChurras } = useLocalStorage();
+
   const [loadingData, setLoadingData] = useState(true);
   const [churrasco, setChurrasco] = useState<Churras | null>(null);
   const [fullUrl, setFullUrl] = useState<string>("");
@@ -47,11 +48,18 @@ export const useChurrasDetalhe = ({ id }: { id: string }) => {
     setChurrasco({ ...churrasco, lista: novaLista });
   };
 
+  const handleUpdateListaPagos = () => {
+    if (!churrasco) return;
+    setChurras(churrasco);
+    alert("Churras atualizado!");
+  };
+
   return {
     churrasco,
     fullUrl,
     loadingData,
     handleCheckPessoa,
     calcularValorTotalArrecadado,
+    handleUpdateListaPagos,
   };
 };
