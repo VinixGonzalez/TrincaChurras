@@ -11,7 +11,7 @@ function ChurrasDetalhePage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   return (
-    <main className="max-w-7xl mx-auto w-full flex flex-col gap-6">
+    <main className="max-w-7xl mx-auto w-full flex flex-col gap-12">
       <Header />
       <ChurrasDetalhe id={params.id} />
     </main>

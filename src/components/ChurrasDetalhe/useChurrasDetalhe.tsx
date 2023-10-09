@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Churras } from "@/types";
 import { useLocalStorage } from "@/storage/Storage";
 import { useState, useEffect } from "react";
@@ -5,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 export const useChurrasDetalhe = ({ id }: { id: string }) => {
   const { getChurras } = useLocalStorage();
+  const [loadingData, setLoadingData] = useState(true);
   const [churrasco, setChurrasco] = useState<Churras | null>(null);
   const [fullUrl, setFullUrl] = useState<string>("");
   const path = usePathname();
@@ -23,6 +25,7 @@ export const useChurrasDetalhe = ({ id }: { id: string }) => {
     ) as Churras;
 
     setChurrasco(churrasco);
+    setLoadingData(false);
   }, []);
 
   useEffect(() => {
@@ -46,8 +49,9 @@ export const useChurrasDetalhe = ({ id }: { id: string }) => {
 
   return {
     churrasco,
+    fullUrl,
+    loadingData,
     handleCheckPessoa,
     calcularValorTotalArrecadado,
-    fullUrl,
   };
 };

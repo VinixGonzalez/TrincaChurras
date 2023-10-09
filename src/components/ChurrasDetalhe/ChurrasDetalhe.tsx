@@ -3,12 +3,14 @@
 import { real } from "@/utils";
 import React from "react";
 import { FaUsers } from "react-icons/fa";
-import { TbPigMoney } from "react-icons/tb";
+import { TbMoneybag, TbPigMoney } from "react-icons/tb";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useChurrasDetalhe } from "./useChurrasDetalhe";
 import ShareButton from "../ShareButton/ShareButton";
 import { useSession } from "next-auth/react";
+import { useLocalStorage } from "@/storage/Storage";
+import { redirect } from "next/navigation";
 
 interface ChurrasDetalhe {
   id: string;
@@ -19,14 +21,27 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
   const {
     churrasco,
     fullUrl,
+    loadingData,
     calcularValorTotalArrecadado,
     handleCheckPessoa,
   } = useChurrasDetalhe({
     id,
   });
 
-  if (!churrasco) {
+  const { setChurras } = useLocalStorage();
+
+  const handleUpdateListaPagos = () => {
+    if (!churrasco) return;
+    setChurras(churrasco);
+    alert("Churras atualizado!");
+  };
+
+  if (loadingData) {
     return "Carregando detalhe...";
+  }
+
+  if (!loadingData && !churrasco) {
+    redirect("/dashboard");
   }
 
   return (
@@ -36,25 +51,26 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
     >
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <p className="text-4xl font-semibold">{churrasco.nome}</p>
+          <p className="text-4xl font-semibold">{churrasco?.nome}</p>
           <div className="flex items-center gap-2">
             <ShareButton
               platform="whatsapp"
-              title={`${churrasco.nome}`}
+              title={`${churrasco?.nome}`}
               url={fullUrl}
             />
             <ShareButton
               platform="facebook"
-              title={`${churrasco.nome}`}
+              title={`${churrasco?.nome}`}
               url={fullUrl}
             />
           </div>
         </div>
         <p className="text-xl font-medium flex items-center">
-          {new Intl.DateTimeFormat("pt-BR", {
-            dateStyle: "short",
-            timeStyle: "short",
-          }).format(new Date(churrasco.data))}
+          {churrasco &&
+            new Intl.DateTimeFormat("pt-BR", {
+              dateStyle: "short",
+              timeStyle: "short",
+            }).format(new Date(churrasco?.data))}
           <span className="ml-2 text-base">🕒</span>
         </p>
       </div>
@@ -62,23 +78,22 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
       <div className="flex items-center justify-between">
         <div className="flex gap-2 items-center" title="Total de pessoas">
           <FaUsers color="#292929" size={22} />
-          <p>{churrasco.lista.length}</p>
+          <p>{churrasco?.lista.length}</p>
         </div>
         <div className="flex gap-2 items-center" title="Total a arrecadar">
           <TbPigMoney color="#292929" size={22} />
-          <p>{real.format(churrasco.total)}</p>
+          <p>{churrasco && real.format(churrasco.total)}</p>
         </div>
         <div className="flex gap-2 items-center" title="Total arrecadado">
-          <TbPigMoney color="#292929" size={22} />
+          <TbMoneybag color="#292929" size={22} />
           <p>{real.format(calcularValorTotalArrecadado())}</p>
         </div>
-        {churrasco.bebidaInclusa && (
+        {churrasco?.bebidaInclusa && (
           <div
             className="flex gap-2 items-center"
             title="Valor das bebidas incluso"
           >
-            {/* <TbPigMoney color="#292929" size={22} /> */}
-            <span className="text-2xl">🍻💲</span>
+            <span className="text-xl">🍻💲</span>
           </div>
         )}
       </div>
@@ -88,10 +103,10 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
       <div>
         <small>Endereço</small>
         <div className="flex gap-6 items-center ">
-          <p>{churrasco.endereco}</p>
+          <p>{churrasco?.endereco}</p>
           <Link
             target="_blank"
-            href={`https://google.com.br/maps/search/${churrasco.endereco}`}
+            href={`https://google.com.br/maps/search/${churrasco?.endereco}`}
             className="flex items-center text-sm font-semibold gap-1 cursor-pointer"
           >
             <small className="underline text-blue-600">ver no mapa</small>
@@ -105,7 +120,7 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
       <div>
         <small>Observações</small>
         <div className="bg-[#c9c9c930] p-2 rounded-xl">
-          <p>{churrasco.observacoes}</p>
+          <p>{churrasco?.observacoes}</p>
         </div>
       </div>
 
@@ -113,7 +128,7 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
 
       <ul className="flex flex-col gap-2">
         <p>Convidados</p>
-        {churrasco.lista.map((pessoa) => (
+        {churrasco?.lista.map((pessoa) => (
           <li key={pessoa.id} className="flex justify-between">
             <div className="flex gap-4">
               <input
@@ -146,6 +161,16 @@ export function ChurrasDetalhe({ id }: ChurrasDetalhe) {
           </li>
         ))}
       </ul>
+
+      <div className="mt-6">
+        <button
+          onClick={handleUpdateListaPagos}
+          type="button"
+          className="bg-[#292929] flex items-center gap-2 py-4 px-8 rounded-full group w-fit"
+        >
+          <p className="text-white font-semibold">Salvar</p>
+        </button>
+      </div>
     </section>
   );
 }

@@ -22,14 +22,16 @@ export function ListaChurras() {
   };
 
   useEffect(() => {
-    setLastUpdated(sessionStorage.getItem("lastUpdated"));
+    setLastUpdated(sessionStorage.getItem("trinca-churras::lastUpdated"));
 
     updateLista();
 
     const interval = setInterval(() => {
-      if (sessionStorage.getItem("lastUpdated") !== lastUpdated) {
+      if (
+        sessionStorage.getItem("trinca-churras::lastUpdated") !== lastUpdated
+      ) {
         updateLista();
-        setLastUpdated(sessionStorage.getItem("lastUpdated"));
+        setLastUpdated(sessionStorage.getItem("trinca-churras::lastUpdated"));
       }
     }, 1000);
 
@@ -45,30 +47,32 @@ export function ListaChurras() {
         </div>
       ) : (
         <div className="flex flex-wrap gap-5">
-          {lista.map((churras) => (
-            <Link key={churras.id} href={`/churras/${churras.id}`}>
-              <div className="bg-white p-4 rounded-xl w-[300px] shadow-lg cursor-pointer">
-                <p className="font-semibold text-2xl">
-                  {new Intl.DateTimeFormat("pt-BR", {
-                    dateStyle: "short",
-                    timeStyle: "short",
-                  }).format(new Date(churras.data))}
-                </p>
-                <p className="text-xl">{churras.nome}</p>
+          {lista
+            .sort((a, b) => (a.data < b.data ? -1 : 1))
+            .map((churras) => (
+              <Link key={churras.id} href={`/churras/${churras.id}`}>
+                <div className="bg-white p-4 rounded-xl w-[300px] shadow-lg cursor-pointer">
+                  <p className="font-semibold text-2xl">
+                    {new Intl.DateTimeFormat("pt-BR", {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    }).format(new Date(churras.data))}
+                  </p>
+                  <p className="text-xl">{churras.nome}</p>
 
-                <div className="flex items-center justify-between mt-8">
-                  <div className="flex gap-2 items-center">
-                    <FaUsers color="#292929" size={22} />
-                    <p>{churras.lista.length}</p>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <TbPigMoney color="#292929" size={22} />
-                    <p>{real.format(churras.total)}</p>
+                  <div className="flex items-center justify-between mt-8">
+                    <div className="flex gap-2 items-center">
+                      <FaUsers color="#292929" size={22} />
+                      <p>{churras.lista.length}</p>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <TbPigMoney color="#292929" size={22} />
+                      <p>{real.format(churras.total)}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
         </div>
       )}
       {!loadingLista && lista.length <= 0 && (
